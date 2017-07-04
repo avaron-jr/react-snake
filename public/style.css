@@ -29,7 +29,7 @@
     background-color: black;
     position : absolute;
 }
-.snakeBody:nth-child(1){
+div.snek:first-child{
     background-color : #f00;
 }
 .food{
