@@ -28,19 +28,19 @@
     width : 10px;
     height : 10px;
     background-color: #0f0;
-    border : 0.1px solid #fff;
+    border : 0.1px solid #000;
     position : absolute;
 }
 .food{
     width : 10px;
     height : 10px;
     background-color: #f00;
-    border : 1px solid #fff;
+    border : 1px solid #000;
     position : absolute;
 }
 .result{
     text-align: center;
-    height : 200px;
+    height : 150px;
     position : absolute;
     top : 0;
     bottom : 0;
