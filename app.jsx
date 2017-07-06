@@ -24,11 +24,6 @@ function Score(props){
     </div>
   )
 }
-function Button(props){
-  return (
-    <button><i className={props.className}></i></button>
-  )
-}
 function Snek(props){
   var snake = [];
   props.snekPosition.map((pos,i) => { 
@@ -51,7 +46,7 @@ function Result(props){
       <div className="result">
         <h2>{props.gameStatus}</h2>
         <h5>Your score : {props.score}</h5>
-        <button onClick={()=>props.resetGame()}>Play Again</button>
+        <button id="play"onClick={()=>props.resetGame()}>Play Again</button>
       </div>
       </div>
   )
@@ -63,13 +58,15 @@ Snek.max = 300;
 class Game extends React.Component {
   static initialize()  {
     return {
-      snekPosition : [[20,10],[20,0]],
+      snekPosition : [[20,10]],
       foodPos : [random(),random()],
       direction : 'r',
       score : 0,
       highScore : 0,
       userName : null,//localStorage.getItem('userName') ? localStorage.getItem('userName') : this.updateName(),
-      gameStatus : null,}
+      gameStatus : null,
+      snekSpeed : 1000,
+    }
     };
   constructor(props) {
     super(props);
@@ -107,7 +104,15 @@ class Game extends React.Component {
       }
       this.checkSnekEat();
     }
-    setTimeout(() => {this.snekMotion(this.state.direction)},1000);
+    switch(this.state.snekPosition.length) {
+      case 15 : {this.setState({snekSpeed:850});break; }
+      case 30 : {this.setState({snekSpeed:700});break; }
+      case 50 : {this.setState({snekSpeed:600});break; }
+      case 75 : {this.setState({snekSpeed:500});break; }
+      case 90 : {this.setState({snekSpeed:400});break; }
+      case 130 : {this.setState({snekSpeed:300});break; }
+    }
+    setTimeout(() => {this.snekMotion(this.state.direction)},this.state.snekSpeed);
   }
   snekPos(e) {
     var k = e.keyCode;
@@ -134,6 +139,10 @@ class Game extends React.Component {
       if(this.state.direction == 'u') return;
       this.setState({direction : 'd'});
       this.snekMove([this.state.snekPosition[0][0]+10,this.state.snekPosition[0][1]]);
+    }
+    if(k == 32 && this.state.gameStatus)
+    {
+      this.resetGame();
     }
     this.checkSnekEat(); 
   }
@@ -174,6 +183,7 @@ class Game extends React.Component {
       score : 0,
       userName : null,
       gameStatus : null,
+      snekSpeed : 1000,
     }));
     //this.snekMotion(this.state.direction);
     console.log("Game reset");
